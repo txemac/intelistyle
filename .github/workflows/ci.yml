@@ -49,7 +49,7 @@ jobs:
         env:
           MONGODB_URL: mongodb://admin:admin@localhost:27017/test?authSource=admin
           MONGODB_DB_NAME: test
-          MONGODB_COLLECTION: products
+          MONGODB_COLLECTION: garments
         run: |
           # Run the tests
           export PYTHONPATH=${PYTHONPATH}:src:test

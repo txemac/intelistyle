@@ -1,12 +1,12 @@
 import pytest
 from starlette.testclient import TestClient
 
+from garment.application.services.read_data_service import ReadDataService
+from garment.domain.garment import Garment
+from garment.domain.garment import ProductImage
+from garment.domain.garment_repository import GarmentRepository
+from garment.infrastructure.repositories.mongo_product_repository import MongoGarmentRepository
 from main import app
-from product.application.services.read_data_service import ReadDataService
-from product.domain.product import Product
-from product.domain.product import ProductImage
-from product.domain.product_repository import ProductRepository
-from product.infrastructure.repositories.mongo_product_repository import MongoProductRepository
 
 
 @pytest.fixture
@@ -21,13 +21,13 @@ def read_data_service() -> ReadDataService:
 
 
 @pytest.fixture
-def product_repository() -> ProductRepository:
-    return MongoProductRepository()
+def product_repository() -> GarmentRepository:
+    return MongoGarmentRepository()
 
 
 @pytest.fixture
-def new_product() -> Product:
-    return Product(
+def new_garment() -> Garment:
+    return Garment(
         product_categories_mapped=["99"],
         product_id=769727985,
         url="https://api.shopstyle.com/action/apiVisitRetailer?id=769727985&pid=uid8521-40402211-57",

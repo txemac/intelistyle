@@ -11,7 +11,7 @@ class ProductImage(BaseModel):
     checksum: str
 
 
-class Product(BaseModel):
+class Garment(BaseModel):
     product_id: Optional[int]
     product_categories_mapped: Optional[List[Union[str, int]]] = []
     url: Optional[str]
@@ -32,5 +32,5 @@ class Product(BaseModel):
     discount: Optional[int]
 
 
-class ProductDB(Product):
+class GarmentDB(Garment):
     _id: str

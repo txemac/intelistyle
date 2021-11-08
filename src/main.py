@@ -3,7 +3,7 @@ from typing import Dict
 import uvicorn
 from fastapi import FastAPI
 
-from product.infrastructure.views.product_views import api_products
+from garment.infrastructure.views.product_views import api_garments
 
 
 def create_app() -> FastAPI:
@@ -11,7 +11,7 @@ def create_app() -> FastAPI:
         title="intelistyle API",
     )
 
-    api.include_router(api_products, prefix='/products', tags=['Products'])
+    api.include_router(api_garments, prefix='/garment', tags=['Garments'])
 
     return api
 

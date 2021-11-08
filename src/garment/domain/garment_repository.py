@@ -2,10 +2,10 @@ from abc import ABC
 from abc import abstractmethod
 from typing import List
 
-from product.domain.product import Product
+from garment.domain.garment import Garment
 
 
-class ProductRepository(ABC):
+class GarmentRepository(ABC):
     @classmethod
     @abstractmethod
     def count(cls) -> int:
@@ -20,12 +20,12 @@ class ProductRepository(ABC):
     @abstractmethod
     def insert_one(
         cls,
-        product: Product,
+        garment: Garment,
     ) -> None:
         """
-        Persist a product.
+        Persist a garment.
 
-        :param product: product to persist
+        :param garment: garment to persist
         """
         pass
 
@@ -33,11 +33,11 @@ class ProductRepository(ABC):
     @abstractmethod
     def insert_many(
         cls,
-        products: List[Product],
+        garments: List[Garment],
     ) -> None:
         """
-        Persist many products.
+        Persist many garment.
 
-        :param products: products to persist
+        :param garments: garments to persist
         """
         pass
