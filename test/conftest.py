@@ -1,6 +1,6 @@
 import pytest
 
-from application.services.read_data_service import ReadDataService
+from product.application.services.read_data_service import ReadDataService
 from main import app
 from starlette.testclient import TestClient
 

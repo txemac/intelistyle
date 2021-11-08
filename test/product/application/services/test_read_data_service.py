@@ -1,4 +1,4 @@
-from application.services.read_data_service import ReadDataService
+from product.application.services.read_data_service import ReadDataService
 from product.domain.product import Product
 from product.domain.product import ProductImage
 
