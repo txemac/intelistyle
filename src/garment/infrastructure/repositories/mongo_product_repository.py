@@ -8,28 +8,23 @@ from garment.domain.garment_repository import GarmentRepository
 
 
 class MongoGarmentRepository(GarmentRepository):
-    @classmethod
-    def count(cls) -> int:
-        with MongoClient(settings.MONGODB_URL) as client:
-            collection = client[settings.MONGODB_DB_NAME][settings.MONGODB_COLLECTION]
-            return collection.find().count()
+    def __init__(self):
+        client = MongoClient(settings.MONGODB_URL)
+        self.collection = client[settings.MONGODB_DB_NAME][settings.MONGODB_COLLECTION]
 
-    @classmethod
+    def count(self) -> int:
+        return self.collection.find().count()
+
     def insert_one(
-        cls,
+        self,
         garment: Garment,
     ) -> bool:
-        with MongoClient(settings.MONGODB_URL) as client:
-            collection = client[settings.MONGODB_DB_NAME][settings.MONGODB_COLLECTION]
-            result = collection.insert_one(garment.dict())
-            return result.acknowledged
+        result = self.collection.insert_one(garment.dict())
+        return result.acknowledged
 
-    @classmethod
     def insert_many(
-        cls,
+        self,
         garments: List[Garment],
     ) -> None:
-        with MongoClient(settings.MONGODB_URL) as client:
-            collection = client[settings.MONGODB_DB_NAME][settings.MONGODB_COLLECTION]
-            result = collection.insert_many([garment.dict() for garment in garments])
-            return result.acknowledged
+        result = self.collection.insert_many([garment.dict() for garment in garments])
+        return result.acknowledged

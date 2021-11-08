@@ -18,7 +18,6 @@ class Garment(BaseModel):
     gender: Optional[str]
     price: Optional[float]
     product_description: Optional[str]
-    colour: Optional[str]
     source: Optional[str]
     product_categories: Optional[List[str]] = []
     images: Optional[List[ProductImage]]

@@ -11,7 +11,7 @@ def create_app() -> FastAPI:
         title="intelistyle API",
     )
 
-    api.include_router(api_garments, prefix='/garment', tags=['Garments'])
+    api.include_router(api_garments, prefix='/garments', tags=['Garments'])
 
     return api
 
