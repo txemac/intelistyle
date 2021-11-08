@@ -1,5 +1,7 @@
 import pytest
-from app.main import app
+
+from application.services.read_data_service import ReadDataService
+from main import app
 from starlette.testclient import TestClient
 
 
@@ -7,3 +9,8 @@ from starlette.testclient import TestClient
 def client():
     with TestClient(app) as client:
         yield client
+
+
+@pytest.fixture
+def read_data_service() -> ReadDataService:
+    return ReadDataService()
