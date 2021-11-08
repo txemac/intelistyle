@@ -47,7 +47,7 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=128 --statistics
       - name: Test with pytest
         env:
-          MONGODB_URL: mongodb://admin:admin@mongodb:27017/test
+          MONGODB_URL: mongodb://admin:admin@localhost:27017/test
           MONGODB_DB_NAME: test
           MONGODB_COLLECTION: products
         run: |
