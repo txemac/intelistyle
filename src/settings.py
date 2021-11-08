@@ -1,0 +1,5 @@
+import os
+
+MONGODB_URL = os.getenv("MONGODB_URL")
+MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME")
+MONGODB_COLLECTION = os.getenv("MONGODB_COLLECTION")

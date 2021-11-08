@@ -10,6 +10,21 @@ jobs:
       matrix:
         python-version: [ 3.9 ]
 
+    services:
+      mongodb:
+        image: mongo
+        env:
+          MONGO_INITDB_ROOT_USERNAME: test
+          MONGO_INITDB_ROOT_PASSWORD: password
+          MONGO_INITDB_DATABASE: test
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -36,6 +51,10 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 128 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=128 --statistics
       - name: Test with pytest
+        env:
+          MONGODB_URL: mongodb+srv://test:password@mongodb/test
+          MONGODB_DB_NAME: test
+          MONGODB_COLLECTION: products
         run: |
           # Run the tests
           export PYTHONPATH=${PYTHONPATH}:src:test

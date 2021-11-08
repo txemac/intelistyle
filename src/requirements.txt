@@ -1,2 +1,4 @@
+dnspython==2.1.0
 fastapi==0.70.0
+pymongo==3.12.1
 uvicorn==0.15.0
