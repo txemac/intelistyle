@@ -1,4 +1,5 @@
 from typing import List
+from typing import Optional
 
 from pymongo import MongoClient
 
@@ -34,3 +35,13 @@ class MongoGarmentRepository(GarmentRepository):
     ) -> None:
         result = self.collection.insert_many([garment.dict() for garment in garments])
         return result.acknowledged
+
+    def get_garments(
+        self,
+        q: Optional[str] = None,
+    ) -> List[Garment]:
+        filters = dict()
+
+        result = self.collection.find(filters)
+
+        return [Garment(**garment) for garment in list(result)]

@@ -23,3 +23,11 @@ def test_insert_many(
     count_2 = product_repository.count()
     assert created is True
     assert count_1 + len(products) == count_2
+
+
+def test_get_garments_without_q(
+    product_repository: GarmentRepository,
+    new_garment: Garment,
+) -> None:
+    result = product_repository.get_garments()
+    assert result == [new_garment, new_garment, new_garment]
