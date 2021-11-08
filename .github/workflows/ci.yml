@@ -16,6 +16,7 @@ jobs:
         env:
           MONGO_INITDB_ROOT_USERNAME: admin
           MONGO_INITDB_ROOT_PASSWORD: admin
+          MONGO_INITDB_DATABASE: test
         ports:
           - 27017:27017
 
@@ -46,7 +47,7 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=128 --statistics
       - name: Test with pytest
         env:
-          MONGODB_URL: mongodb://admin:admin@mongodb:27017
+          MONGODB_URL: mongodb://admin:admin@mongodb:27017/test
           MONGODB_DB_NAME: test
           MONGODB_COLLECTION: products
         run: |
