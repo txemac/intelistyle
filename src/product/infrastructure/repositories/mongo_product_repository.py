@@ -12,7 +12,7 @@ class MongoProductRepository(ProductRepository):
     def count(cls) -> int:
         with MongoClient(settings.MONGODB_URL) as client:
             collection = client[settings.MONGODB_DB_NAME][settings.MONGODB_COLLECTION]
-            return collection.count()
+            return collection.find().count()
 
     @classmethod
     def insert_one(
