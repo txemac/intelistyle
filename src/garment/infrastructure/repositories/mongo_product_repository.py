@@ -15,6 +15,12 @@ class MongoGarmentRepository(GarmentRepository):
     def count(self) -> int:
         return self.collection.find().count()
 
+    def create_index(
+        self,
+        field: str,
+    ) -> bool:
+        return self.collection.create_index(field)
+
     def insert_one(
         self,
         garment: Garment,

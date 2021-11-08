@@ -22,3 +22,4 @@ def init_database(
     products = read_data_service.read_data(text=text)
 
     garment_repository.insert_many(products)
+    garment_repository.create_index("product_description")

@@ -1,6 +1,8 @@
 import pytest
+from pymongo import MongoClient
 from starlette.testclient import TestClient
 
+import settings
 from garment.application.services.read_data_service import ReadDataService
 from garment.domain.garment import Garment
 from garment.domain.garment import ProductImage
@@ -13,6 +15,14 @@ from main import app
 def client():
     with TestClient(app) as client:
         yield client
+
+
+@pytest.fixture(scope="session", autouse=True)
+def delete_database():
+    with MongoClient(settings.MONGODB_URL) as client:
+        collection = client[settings.MONGODB_DB_NAME][settings.MONGODB_COLLECTION]
+        collection.remove({})
+        collection.create_index("product_description")
 
 
 @pytest.fixture
