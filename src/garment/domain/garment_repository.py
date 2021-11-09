@@ -1,7 +1,6 @@
 from abc import ABC
 from abc import abstractmethod
 from typing import List
-from typing import Optional
 
 from garment.domain.garment import Garment
 
@@ -80,12 +79,16 @@ class GarmentRepository(ABC):
     @abstractmethod
     async def get_garments(
         self,
-        q: Optional[str] = None,
+        q: str = None,
+        page: int = 1,
+        page_size: int = 20,
     ) -> List[Garment]:
         """
         Get garments.
 
         :param q: query
+        :param page: number of page
+        :param page_size: number of elements per page
         :return: garments
         """
         pass

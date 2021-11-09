@@ -33,3 +33,11 @@ class Garment(BaseModel):
 
 class GarmentDB(Garment):
     _id: str
+
+
+class PaginateGarments(BaseModel):
+    page: int
+    page_size: int
+    data: List[GarmentDB]
+    next: Optional[str]
+    prev: Optional[str]

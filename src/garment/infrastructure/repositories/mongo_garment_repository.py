@@ -1,7 +1,7 @@
 import re
 from typing import List
-from typing import Optional
 
+import pymongo
 from bson import Regex
 from motor import motor_asyncio
 
@@ -55,7 +55,9 @@ class MongoGarmentRepository(GarmentRepository):
 
     async def get_garments(
         self,
-        q: Optional[str] = None,
+        q: str = None,
+        page: int = 1,
+        page_size: int = 20,
     ) -> List[Garment]:
         filters = dict()
         words = q.split() if q else []
@@ -67,5 +69,9 @@ class MongoGarmentRepository(GarmentRepository):
             filters["product_description"] = regex
 
         cursor = self.__collection.find(filters)
+        cursor.sort("_id", pymongo.ASCENDING)
+        if page > 1:
+            cursor.skip((page - 1) * page_size)
+        cursor.limit(page_size)
 
         return [Garment(**garment) async for garment in cursor]
