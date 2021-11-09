@@ -10,6 +10,8 @@ from garment.domain.garment import PaginateGarments
 from garment.infrastructure.views import download_read_file_service
 from garment.infrastructure.views import garment_repository
 from garment.infrastructure.views import read_data_service
+from utils import get_next_url
+from utils import get_prev_url
 
 api_garments = APIRouter()
 
@@ -49,7 +51,7 @@ async def get_garments(
         page=page,
         page_size=page_size,
         data=garments,
-        next=str(request.url).replace(f"page={page}", f"page={page + 1}") if len(garments) == page_size else None,
-        prev=str(request.url).replace(f"page={page}", f"page={page - 1}") if page > 1 else None,
+        next=get_next_url(url=str(request.url), len_data=len(garments), page=page, page_size=page_size),
+        prev=get_prev_url(url=str(request.url), page=page),
     )
     return a
