@@ -18,15 +18,15 @@ api_garments = APIRouter()
     path="/init-database",
     status_code=HTTPStatus.OK,
 )
-def init_database(
+async def init_database(
     payload: PostInitDataBasePayload,
 ) -> None:
     text = download_read_file_service.download_read_file(url=payload.url)
 
     garments = read_data_service.read_data(text=text)
 
-    garment_repository.insert_many(garments=garments)
-    garment_repository.create_index("product_description")
+    await garment_repository.insert_many(garments=garments)
+    await garment_repository.create_index("product_description")
 
 
 @api_garments.get(
@@ -34,8 +34,8 @@ def init_database(
     response_model=List[Garment],
     status_code=HTTPStatus.OK,
 )
-def get_garments(
+async def get_garments(
     q: Optional[str] = Query(None, min_length=1),
 ) -> List[Garment]:
-    result = garment_repository.get_garments(q=q)
+    result = await garment_repository.get_garments(q=q)
     return result

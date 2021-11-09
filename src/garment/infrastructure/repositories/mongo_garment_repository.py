@@ -3,7 +3,7 @@ from typing import List
 from typing import Optional
 
 from bson import Regex
-from pymongo import MongoClient
+from motor import motor_asyncio
 
 import settings
 from garment.domain.garment import Garment
@@ -11,34 +11,49 @@ from garment.domain.garment_repository import GarmentRepository
 
 
 class MongoGarmentRepository(GarmentRepository):
+    __client = None
+    __collection = None
+
     def __init__(self):
-        client = MongoClient(settings.MONGODB_URL)
-        self.collection = client[settings.MONGODB_DB_NAME][settings.MONGODB_COLLECTION]
+        if self.__client is None or self.__collection is None:
+            self.connect()
 
-    def count(self) -> int:
-        return self.collection.find().count()
+    async def connect(self) -> None:
+        self.__client = motor_asyncio.AsyncIOMotorClient(settings.MONGODB_URL)
+        database = self.__client[settings.MONGODB_DB_NAME]
+        self.__collection = database[settings.MONGODB_COLLECTION]
 
-    def create_index(
+    async def disconnect(self) -> None:
+        self.__client.close()
+
+    async def count(self) -> int:
+        return await self.__collection.count_documents({})
+
+    async def delete_all(self) -> bool:
+        result = await self.__collection.delete_many({})
+        return result.acknowledged
+
+    async def create_index(
         self,
         field: str,
     ) -> bool:
-        return self.collection.create_index(field)
+        return await self.__collection.create_index(field)
 
-    def insert_one(
+    async def insert_one(
         self,
         garment: Garment,
     ) -> bool:
-        result = self.collection.insert_one(garment.dict())
+        result = await self.__collection.insert_one(garment.dict())
         return result.acknowledged
 
-    def insert_many(
+    async def insert_many(
         self,
         garments: List[Garment],
     ) -> None:
-        result = self.collection.insert_many([garment.dict() for garment in garments])
+        result = await self.__collection.insert_many([garment.dict() for garment in garments])
         return result.acknowledged
 
-    def get_garments(
+    async def get_garments(
         self,
         q: Optional[str] = None,
     ) -> List[Garment]:
@@ -51,6 +66,6 @@ class MongoGarmentRepository(GarmentRepository):
             regex = Regex.from_native(pattern)
             filters["product_description"] = regex
 
-        result = self.collection.find(filters)
+        cursor = self.__collection.find(filters)
 
-        return [Garment(**garment) for garment in list(result)]
+        return [Garment(**garment) async for garment in cursor]
