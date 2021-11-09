@@ -1,6 +1,8 @@
+import re
 from typing import List
 from typing import Optional
 
+from bson import Regex
 from pymongo import MongoClient
 
 import settings
@@ -41,6 +43,13 @@ class MongoGarmentRepository(GarmentRepository):
         q: Optional[str] = None,
     ) -> List[Garment]:
         filters = dict()
+        words = q.split() if q else []
+        if words:
+            pattern = "".join([f"(?=.*\\b{word}\\b)" for word in words])
+            pattern = f"{pattern}.*"
+            pattern = re.compile(pattern, flags=re.IGNORECASE)
+            regex = Regex.from_native(pattern)
+            filters["product_description"] = regex
 
         result = self.collection.find(filters)
 

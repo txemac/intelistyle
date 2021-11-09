@@ -7,7 +7,7 @@ from garment.application.services.read_data_service import ReadDataService
 from garment.domain.garment import Garment
 from garment.domain.garment import ProductImage
 from garment.domain.garment_repository import GarmentRepository
-from garment.infrastructure.repositories.mongo_product_repository import MongoGarmentRepository
+from garment.infrastructure.repositories.mongo_garment_repository import MongoGarmentRepository
 from main import app
 
 
@@ -17,7 +17,7 @@ def client():
         yield client
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def delete_database():
     with MongoClient(settings.MONGODB_URL) as client:
         collection = client[settings.MONGODB_DB_NAME][settings.MONGODB_COLLECTION]
@@ -31,7 +31,7 @@ def read_data_service() -> ReadDataService:
 
 
 @pytest.fixture
-def product_repository() -> GarmentRepository:
+def garment_repository() -> GarmentRepository:
     return MongoGarmentRepository()
 
 

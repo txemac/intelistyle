@@ -3,7 +3,7 @@ from typing import Dict
 import uvicorn
 from fastapi import FastAPI
 
-from garment.infrastructure.views.product_views import api_garments
+from garment.infrastructure.views.garment_views import api_garments
 
 
 def create_app() -> FastAPI:

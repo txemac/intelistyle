@@ -23,9 +23,9 @@ def init_database(
 ) -> None:
     text = download_read_file_service.download_read_file(url=payload.url)
 
-    products = read_data_service.read_data(text=text)
+    garments = read_data_service.read_data(text=text)
 
-    garment_repository.insert_many(products)
+    garment_repository.insert_many(garments=garments)
     garment_repository.create_index("product_description")
 
 
