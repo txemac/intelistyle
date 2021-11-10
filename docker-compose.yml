@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+
+  api:
+    build: .
+    command: uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    ports:
+      - 8000:8000
+    environment:
+      MONGODB_URL: "mongodb://admin:admin@mongodb:27017/test?authSource=admin"
+      MONGODB_DB_NAME: "intelistyle"
+      MONGODB_COLLECTION: "garments"
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: test
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongo_data:
