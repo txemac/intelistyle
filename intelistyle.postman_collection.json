@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "7e1f4b9d-65df-4775-a40e-d4069cc4c5eb",
+		"name": "intelistyle",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "546719"
+	},
+	"item": [
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "init database",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\": \"https://stylr-ai-engine-srv-data.s3.eu-west-1.amazonaws.com//srv/data/new_scrapes/shopstyle-1689-men-18-03-2019/garment_items.jl\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/garments/init-database",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"garments",
+						"init-database"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get garments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/garments/?q=Blue",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"garments",
+						""
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Blue"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
